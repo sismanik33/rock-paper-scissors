@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+  <script>
+    // Your JavaScript goes here!
+    function computerPlay() {
+        rand = Math.floor(Math.random() * 3);
+        switch (rand) {
+            case 0:
+                return 'rock';
+            case 1:
+                return 'paper';
+            case 2:
+                return 'scissors';
+            default:
+                alert('something went wrong');
+                return '';
+        }
+    }
+    function userPlay() {
+        move = prompt('Pick your move (Rock/Paper/Scissors):', '');
+        if(move.toLowerCase() === 'rock' || move.toLowerCase() === 'paper' || move.toLowerCase() === 'scissors'){            
+            return move.toLowerCase();
+        }
+        alert('Please enter \'Rock\', \'Paper\', or \'Scissors\'!');
+            userPlay();        
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        switch (playerSelection) {
+            case 'rock': 
+                switch (computerSelection) {
+                    case 'rock':
+                        return tie();
+                    case 'paper':
+                        return youLose(playerSelection, computerSelection);                    
+                    case 'scissors':
+                        return youWin(playerSelection, computerSelection);
+                }
+            case 'paper':
+                switch (computerSelection) {
+                    case 'rock':
+                        return youWin(playerSelection, computerSelection);
+                    case 'paper':
+                        return tie();                    
+                    case 'scissors':
+                        return youLose(playerSelection, computerSelection);
+                }
+
+            case 'scissors':
+                switch (computerSelection) {
+                    case 'rock':
+                        return youLose(playerSelection, computerSelection);
+                    case 'paper':
+                        return youWin(playerSelection, computerSelection);
+                    case 'scissors':
+                        return tie();
+                }
+        }
+    }
+
+    function tie() {
+        return 'Tie game, let\'s try again';      
+    }
+    
+    function youLose(player, computer) {
+        return 'You Lose! ' + computer.charAt(0).toUpperCase() + computer.slice(1) + ' beats ' + player.charAt(0).toUpperCase() + player.slice(1);      
+    }
+    
+    function youWin(player, computer) {
+        return 'You Win! ' + player.charAt(0).toUpperCase() + player.slice(1)+ ' beats ' + computer.charAt(0).toUpperCase() + computer.slice(1);
+    }          
+       
+
+    const playerSelection = userPlay();
+    const computerSelection = computerPlay();
+    console.log(playRound(playerSelection, computerSelection))
+
+  </script>
+</body>
+</html>
