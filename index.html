@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8"/>
+  <h1>Rock-Paper-Scissors</h1>
+</head>
+<body>
+    <div id="playArea">
+        <div id="buttons">
+                <div id="moveButtons">
+                    <button id="rockBtn">Rock</button>
+                    <button id="paperBtn">Paper</button>
+                    <button id="scissorsBtn">Scissors</button>
+                </div>        
+        </div>
+        <div id="roundInformation">            
+            <p class="playerMove"></p>
+            <p class="computerMove"></p>
+            <p class="roundOutcome"></p>
+            <p class="scoreBoard"></p>
+            <h2 class="gameWinner"></h2>
+            
+        </div> 
+    </div> 
+</body>
+
+<script>
+    let roundInformationText = document.querySelector('.roundInformation')
+    let playerMoveText = document.querySelector('.playerMove');
+    let computerMoveText = document.querySelector('.computerMove');
+    let roundOutcomeText = document.querySelector('.roundOutcome');
+    let gameWinnerText = document.querySelector('.gameWinner');
+
+    let scoreBoardText = document.querySelector('.scoreBoard');
+    scoreBoardText.textContent = '';
+
+
+    let playerScore = 0;
+    let computerScore = 0;
+    let roundCount = 0; 
+ 
+    let gameWinner = false;
+
+    let rockButton = document.getElementById('rockBtn');
+    rockButton.addEventListener('click', function () {
+        let move = 'rock';
+        playRound(move, computerPlay());   
+    });
+    let paperButton = document.getElementById('paperBtn');
+    paperButton.addEventListener('click', function () {
+        let move = 'paper';
+        playRound(move, computerPlay());   
+
+    });
+    let scissorsButton = document.getElementById('scissorsBtn');
+    scissorsButton.addEventListener('click', function () {
+        let move = 'scissors';
+        playRound(move, computerPlay());   
+    });
+
+    function announceWinner() {
+        gameWinner = true;
+        return (playerScore == 3 ? 'You Win! This game is over.' : 'Game Over. Computer Wins!')
+    }
+
+    function score() {
+        return 'The score is:\nYou: ' + playerScore +'\nComputer: ' + computerScore;
+    }
+
+    function computerPlay() {   //get the computers move
+        rand = Math.floor(Math.random() * 3);
+        switch (rand) {
+            case 0:
+                return 'rock';
+            case 1:
+                return 'paper';
+            case 2:
+                return 'scissors';
+            default:
+                alert('something went wrong');
+                return '';
+        }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        playerMoveText.textContent = 'Your move: ' + playerSelection;
+        computerMoveText.textContent = 'Computer\'s move: ' + computerSelection;
+        switch (playerSelection) {
+            case 'rock': 
+                switch (computerSelection) {
+                    case 'rock':
+                        tie();
+                        break;
+                    case 'paper':
+                        youLose(playerSelection, computerSelection);
+                        break;                
+                    case 'scissors':
+                        youWin(playerSelection, computerSelection);
+                        break;
+                }
+                break;
+            case 'paper':
+                switch (computerSelection) {
+                    case 'rock':
+                        youWin(playerSelection, computerSelection);
+                    case 'paper':
+                        return tie();                    
+                    case 'scissors':
+                        youLose(playerSelection, computerSelection);
+                }
+                break;
+            case 'scissors':
+                switch (computerSelection) {
+                    case 'rock':
+                        youLose(playerSelection, computerSelection);
+                    case 'paper':
+                        youWin(playerSelection, computerSelection);
+                    case 'scissors':
+                        tie();
+                }
+                break;
+        }
+
+        scoreBoardText.textcontent = 'hey!';
+        console.log(score());
+
+    }
+
+    function tie() {
+        roundOutcomeText.textContent = 'Tie game, let\'s try again';      
+    }
+    
+    function youLose(player, computer) {
+        ++computerScore;
+        roundOutcomeText.textContent = 'You Lose! ' + computer.charAt(0).toUpperCase() + computer.slice(1) + ' beats ' + player.charAt(0).toUpperCase() + player.slice(1);      
+    }
+    
+    function youWin(player, computer) {
+        ++playerScore;
+        roundOutcomeText.textContent = 'You Win! ' + player.charAt(0).toUpperCase() + player.slice(1)+ ' beats ' + computer.charAt(0).toUpperCase() + computer.slice(1);
+    }      
+       
+
+  </script>
+<!-- <link rel="stylesheet" href="style.css"> -->
+</html>
